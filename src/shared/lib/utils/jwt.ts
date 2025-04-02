@@ -9,7 +9,7 @@ dotenv.config();
 
 export const generateJwtToken = (payload: JwtPayload): string => {
 
-    const secretKey = process.env.JWT_SECRET_KEY || "Rexcoders_2022_by_rexKnar@2018"
+    const secretKey = process.env.JWT_SECRET_KEY || "Lumia_2024_by_lumia@2024"
     const options = {
         expiresIn: '10h', 
     };
@@ -26,7 +26,7 @@ export const authenticateToken = (req: any, res: Response, next: any) => {
         if (token == null) {
             sendErrorObj(res, token_err, "Token Not Found!");
         } else {
-            jwt.verify(token, process.env.JWT_SECRET_KEY||"Rexcoders_2022_by_rexKnar@2018", (err:any, user: any) => {
+            jwt.verify(token, process.env.JWT_SECRET_KEY||"Lumia_2024_by_lumia@2024", (err:any, user: any) => {
                 if (err) {
                     sendErrorObj(res, token_err, err);
                 }

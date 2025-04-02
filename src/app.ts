@@ -35,6 +35,10 @@ const brandApi    = require('./modules/brand/brand.route')
 const socialMediaApi =require('./modules/socilamedia/socialmedia.route')
 const productApi  = require('./modules/product/product.route')
 const seasonApi = require('./modules/seasons/season.route')
+const authApi = require('./modules/auth/auth.route')
+const subjectApi = require('./modules/subject/subject.route')
+const staffApi = require('./modules/staff/staff.route')
+const assignSubjectApi = require('./modules/assignSubject/assignSubject.route')
 // const productImagesApi =require('./modules/productImages/productImage.route')
 
 // //Routes
@@ -44,6 +48,10 @@ app.use('/api/brand',brandApi)
 app.use('/api/socialmedia',socialMediaApi)
 app.use('/api/product',productApi)
 app.use('/api/season',seasonApi)
+app.use('/api/auth',authApi)
+app.use("/api/staffs", staffApi);
+app.use("/api/subjects", subjectApi);
+app.use("/api/assignSubjects", assignSubjectApi);
 // app.use('/api/productimages',productImagesApi)
 
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));

@@ -8,15 +8,49 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid()) @map("_id") @db.Uuid
-  name      String
-  email     String   @unique
-  password  String
-  role      String   @default("customer")
-  createdAt DateTime @default(now())
-  cartItems Cart[]
-  orders    Order[]
-  reviews   Review[]
+  id            String    @id @default(uuid()) @map("_id") @db.Uuid
+  name          String?
+  email         String    @unique
+  username      String?   @unique
+  password      String
+  phoneNumber   String?
+  role          UserRole           @default(User)
+  image         String?
+  emailVerified DateTime?
+  accounts      Account[]
+  orders        Order[]
+  cart          Cart?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  Review Review[]
+}
+
+
+enum UserRole {
+  Admin
+  TeachingStaff
+  NonTeachingStaff
+  Student
+  User
+  OfficeAdmin
+  HM
+  AHM
+}
+model Account {
+  id                String  @id @default(uuid()) @map("_id") @db.Uuid
+  userId            String  @db.Uuid
+  provider          String
+  providerAccountId String
+  access_token      String?
+  refresh_token     String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
 }
 
 model Category {
@@ -96,7 +130,7 @@ model Review {
 
 model Cart {
   id        String   @id @default(uuid()) @map("_id") @db.Uuid
-  userId    String   @db.Uuid
+  userId    String   @db.Uuid @unique
   productId String   @db.Uuid
   quantity  Int
   createdAt DateTime @default(now())
@@ -115,4 +149,37 @@ model SocialMedia {
   id        String  @id @default(uuid()) @map("_id") @db.Uuid
   imagePath String?
   name      String  @default("Default Name")
+}
+model Staff {
+  id        String  @id @default(uuid())
+  name      String
+  email     String  @unique
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  subjects  Subject[] @relation("StaffSubjects")
+
+  subjectAssignment SubjectAssignment[]
+}
+
+model Subject {
+  id        String  @id @default(uuid())
+  name      String  @unique
+  createdAt DateTime @default(now())
+
+  staff     Staff?   @relation("StaffSubjects", fields: [staffId], references: [id])
+  staffId   String?
+
+  subjectAssignment SubjectAssignment[]
+}
+
+model SubjectAssignment {
+  id        String   @id @default(uuid())
+  staff     Staff    @relation(fields: [staffId], references: [id])
+  staffId   String
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+  subjectId String
+
+  @@unique([staffId, subjectId]) // Prevent duplicate assignments
 }
