@@ -9,7 +9,7 @@ const host = process.env.APP_HOST || 'localhost';
 const port = process.env.APP_PORT || 7700;
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended:true}));
 
 //Express configuration.
 app.set("host", host);

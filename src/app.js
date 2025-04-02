@@ -11,7 +11,7 @@ const app = (0, express_1.default)();
 const host = process.env.APP_HOST || 'localhost';
 const port = process.env.APP_PORT || 7700;
 app.use(express_1.default.json());
-app.use(express_1.default.urlencoded());
+app.use(express_1.default.urlencoded({ extended: true }));
 //Express configuration.
 app.set("host", host);
 app.set("port", port);
