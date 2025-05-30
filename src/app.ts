@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import path from "path";
-
+import { authContextMiddleware } from "./shared/lib/middleware/auth-context";
 dotenv.config();
 
 const app: Express = express();
@@ -39,10 +39,12 @@ const authApi = require('./modules/auth/auth.route')
 const subjectApi = require('./modules/subject/subject.route')
 const staffApi = require('./modules/staff/staff.route')
 const assignSubjectApi = require('./modules/assignSubject/assignSubject.route')
+
 // const productImagesApi =require('./modules/productImages/productImage.route')
 
 // //Routes
 // app.use('api/auth',authApi);
+app.use(authContextMiddleware);
 app.use('/api/category',categoryApi)
 app.use('/api/brand',brandApi)
 app.use('/api/socialmedia',socialMediaApi)
